@@ -3,20 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Proyecto final</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
-   
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script>
+        AFRAME.registerComponent('play-video', {
+            schema: { videoId: { type: 'string' } },
+            init: function () {
+                var videoId = this.data.videoId;
+                var myVideo = document.querySelector(videoId);
+                this.el.addEventListener('click', function () {
+                    if (myVideo.paused) {
+                        myVideo.play().catch((e) => console.error('Error playing video:', e));
+                    }
+                });
+            }
+        });
+
+        AFRAME.registerComponent('pause-video', {
+            schema: { videoId: { type: 'string' } },
+            init: function () {
+                var videoId = this.data.videoId;
+                var myVideo = document.querySelector(videoId);
+                this.el.addEventListener('click', function () {
+                    if (!myVideo.paused) {
+                        myVideo.pause();
+                    }
+                });
+            }
+        });
+    </script>
+</head>
 </head>
 <body>
-    <a-entity environment= "preset: forest; dressingAmount: 70; skyType:gradient; skyColor:#f3a76d; horizonColor:#997f87; 
-    lighting:distant; lightPosition: 0 1.65 -1; fog: 0.75; flatShading: false; playArea: 1; ground:hills; 
-    groundYScale:5; groundTexture:walkernoise; groundColor: #091703; groundColor2:#040d00; dressing:trees; 
-    dressingColor:#092006; dressingScale: 1; dressingVariance:20 20 20; dressingUniformScale: true; 
-    dressingOnPlayArea: 0; grid:none;gridColor:#c5a543; shadow: false"></a-entity>
+   <!--CAMARA-->
+    <a-scene>
+        <a-entity id="rig"
+        movement-controls="constrainToNavMesh: true;
+                controls: checkpoint, gamepad, trackpad, keyboard, nipple;"
+        position="-19 0 25"
+        rotation="0 -31 0">
+    <a-entity camera
+              position="0 5 0"
+              look-controls="pointerLockEnabled: true">
+      <a-cursor></a-cursor>
+    </a-entity>
+    
+    </a-entity>
+
+    <!--sistema de gestión assets-->
+    <a-asssets>
+        <video id="Video" loop="true" src="assets/videos/3D.mp4"></video>
+        <img id="play" src="assets/Images/play.png">
+        <img id="pause" src="assets/Images/pause.png">
+    </a-asssets>
+
+   <a-video src="#Video" position="0 5.5 -5" rotation="0 0 0" width="5" height="3"> </a-video>
+   <a-image src="#play" position="4 5.5 -5" height="0.5" width="0.5" rotation="0 0 0" play-video="videoId: #Video"></a-image>
+   <a-image src="#pause" position="5 5.5 -5" height="0.5" width="0.5" rotation="0 0 0" pause-video="videoId: #Video"></a-image>
 
 
-    <a-entity  geometry="primitive: dodecahedron; radius: 2"color="#6682f7"  position="0 0 0 " scale="1 1 1"></a-entity>
+   <a-entity geometry="primitive: icosahedron" material="src: assets/Images/sol.jpg" position="0 59.519 0" scale="15 15 15" rotation="-20.446 96.283 3.426" ></a-entity>
+    <a-sky src="assets/Images/atlantis.jpg" ></a-sky>
+    <a-entity geometry="primitive: plane; height: 50; width: 50" rotation="-90 0 0" position="-7.70166 3.5 0" material="color:#58f2f5" scale="0.59546 1.01909 1"></a-entity>
+
+
+    <a-entity text="color: black; font: assets/Fonts/Letra-msdf.json; fontImage: assets\Fonts\Letra.png; negate: false; value: Quiero ser libre, no tener preocupaciones físicas que me limiten, que no me dejen ser feliz. Ahora es posible, puedo vivir en un mundo de ensueño, vivir sin limitaciones, vivir y no sbrevivir en el mundo virtual.; wrapCount: 35" scale="15 15 15" position="-11.91751 7.59616 -6.064"></a-entity>
+    <a-entity geometry="primitive: plane; height: 10; width: 10" rotation="" position="-12.07719 6.59215 -6.06417" material="src:assets/Images/Pan.jpg" scale="1.7923 1 1"></a-entity>
+
+    <a-entity geometry="primitive: plane; height: 10; width: 10" rotation="0 -90 0" position="6.76868 11.14802 4.04774" material="src: assets/Images/city.jpg" scale="0.96125 1.5459 1"></a-entity>
+    <a-entity geometry="primitive: plane; height: 5; width: 5" rotation="0 -90 0" position="6 6.592 14.94726" material="src: assets/Images/Pan.jpg" scale="1.792 0.65478 1"></a-entity>
+    <a-entity text="color: black; font: assets/Fonts/Letra-msdf.json; fontImage: assets\Fonts\Letra.png; negate: false; value: No quiero regresar ahí...; wrapCount: 35" scale="12 12 15" position="6 6.592 17.62736" rotation="0 -90 0"></a-entity>
+
+
+
+
+
+
+    </a-scene>
+    
 </body>
-
 </html>
